@@ -1,0 +1,80 @@
+//define output LED
+int led = D7;
+
+//define length of short and long interval in ms
+int sho = 250;
+int lon = 750;
+
+//set LED pin to output
+void setup(){
+  pinMode(led, OUTPUT);
+}
+
+
+
+//short blink equal to sho length
+void dit(){
+    digitalWrite(led, HIGH);
+    delay(sho);
+    digitalWrite(led, LOW);
+    delay(sho);
+}
+
+//long blink equal to lon length
+void daa(){
+    digitalWrite(led, HIGH);
+    delay(lon);
+    digitalWrite(led, LOW);
+    delay(sho);
+}
+
+//finishes letter, adds extra delay equal to lon so as to break up letters
+void fin(){
+    delay(lon);
+}
+
+
+
+//transmits P in morse
+void p(){
+    dit();
+    daa();
+    daa();
+    dit();
+    fin();
+}
+
+//transmits E in morse
+void e(){
+    dit();
+    fin();
+}
+
+//transmits R in morse
+void r(){
+    dit();
+    daa();
+    dit();
+    fin();
+}
+
+//transmits Y in morse
+void y(){
+    daa();
+    dit();
+    daa();
+    daa();
+    fin();
+}
+
+
+//continuously transmits letters in sequence, short delay at end to break up each serial
+void loop(){
+p();
+e();
+r();
+r();
+y();
+
+delay(1500);
+}
