@@ -1,0 +1,24 @@
+//declares pin for data read in
+#define INPIN A3
+
+//declares initial read value
+int moisture;
+
+//declares value for conversion to volts
+int volts;
+
+void setup(){
+    //sets INPIN to input
+    pinMode(INPIN, INPUT);
+}
+
+void loop(){
+    //reads value from sensor connected to INPIN
+    moisture = analogRead(INPIN);
+    //converts reads raw sensor data and converts to volts
+    volts = (moisture*3300)/4096;
+    //pushes variables volts to webhook
+    Particle.publish("volts", String(volts), PRIVATE);
+    //waits 30s for next read
+    delay(30000);              
+}
