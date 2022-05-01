@@ -1,0 +1,47 @@
+//set output pin
+int pin = D3;
+//set interval for blinks
+int interval = 500;
+
+//responds to fake_event when triggered with "wave" or "pat"
+int respond(String command) 
+{
+	if (command.equals("wave"))
+	{
+	    //blinks three times
+        for (int i = 0; i < 3; i++)
+        {
+        delay(interval);
+        digitalWrite(pin, HIGH);
+        delay(interval);
+        digitalWrite(pin, LOW);
+        }
+	}
+    else if (command.equals("pat"))
+    {
+        //blinks five times
+        for (int i = 0; i < 5; i++)
+        {
+        delay(interval);
+        digitalWrite(pin, HIGH);
+        delay(interval);
+        digitalWrite(pin, LOW);
+        }
+    }
+    return 1;
+}
+
+
+
+void setup() 
+{
+    //set pin to output
+	pinMode(pin, OUTPUT);
+
+    //registers the particle function to be called via the cloud 
+	Particle.function("fake_event", respond);
+}
+
+void loop() 
+{
+}
