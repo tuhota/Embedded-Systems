@@ -1,0 +1,55 @@
+from tkinter import *
+from gpiozero import LED
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+
+# define output pins in BCM numbering
+r = LED(14)
+g = LED(15)
+b = LED(18)
+
+# initialise tkinter window instance
+box = Tk()
+
+# toggle function, turns on selected LED, switches others off
+def tog(pin):
+    if pin == r:
+        print("r")
+        r.on()
+        g.off()
+        b.off()
+    elif pin == g:
+        print("g")
+        r.off()
+        g.on()
+        b.off()
+    else:
+        print("b")
+        r.off()
+        g.off()
+        b.on()
+        
+        
+# close program function, destroys tkinter window and cleans up pins
+def close():
+    GPIO.cleanup()
+    box.destroy()
+
+# led buttons, active toggle function for each respective led
+r_but = Button(box, text = 'Toggle RED', bg = 'red', command = lambda: tog(r))
+# defines position in gui
+r_but.grid(row = 0, column = 1)
+
+g_but = Button(box, text = 'Toggle GREEN', bg = 'green', command = lambda: tog(g))
+g_but.grid(row = 0, column = 2)
+
+b_but = Button(box, text = 'Toggle BLUE', bg = 'navy', command = lambda: tog(b))
+b_but.grid(row = 0, column = 3)
+
+# button for close function to exit program
+stop = Button(box, text = 'Exit', command = close)
+stop.grid(row = 2, column = 2)
+
+# loops until interrupted
+box.protocol("WM_DELETE_WINDOW", close)
+box.mainloop()
