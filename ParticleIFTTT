@@ -30,14 +30,14 @@ void loop()
     
     /*
     if lumination greater than the sun limit: 
-    publish event "suntrue" to ifttt trigger
+    publish event "suntf" to ifttt trigger, with data "present"
     print "suntrue" to serial
     
     loop until the reading drops below sun limit
     */
     if (lum >= SUNLIM)
     {
-        //Particle.publish("suntrue");
+        Particle.publish("suntf", "present");
         Serial.println("suntrue");
         
         while (lum >= SUNLIM)
@@ -50,14 +50,14 @@ void loop()
     
     /*
     else below sun limit
-    publish event "sunfalse" to ifttt trigger
+    publish event "suntf" to ifttt trigger, with data "absent"
     print "sunfalse" to serial
     
     loop until the reading rises to at or above sun limit
     */
     else
     {
-        //Particle.publish("sunfalse");
+        Particle.publish("suntf", "absent");
         Serial.println("sunfalse");
         
         while (lum < SUNLIM)
