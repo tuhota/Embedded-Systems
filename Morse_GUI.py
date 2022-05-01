@@ -43,6 +43,7 @@ def fin():
 def translate(word):
     morse = ""
     word = word.upper()
+    
     for i in word:
         morse = morse + morse_code[i] + "|"
     return morse
@@ -51,11 +52,14 @@ def translate(word):
 def blink():
     global code
     string = code.get() 
+    
     if len(string) > 12:
         print("Error: string of =< 12 only")
         return
+    
     string = translate(string)
     print(string)
+    
     #blinks the LED on pin by parsing the morse in a loop
     for i in string:
         if i == ".":
