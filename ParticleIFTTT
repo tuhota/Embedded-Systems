@@ -1,0 +1,73 @@
+#include <BH1750.h>
+
+BH1750 sensor(0x23, Wire);
+
+//sun limit, greater than or equal to value is sunlight present, less than is sunlight absent
+#define SUNLIM 100
+
+//float for writing level of lumination from sensor
+float lum = 0;
+
+
+void setup()
+{
+    //sensor initialisation
+    sensor.begin();
+    //sensor resolution (high)
+    sensor.set_sensor_mode(BH1750::forced_mode_high_res2);
+    //serial monitor intitialisation for debugging
+    Serial.begin();
+}
+
+void loop()
+{
+    //take sensor reading
+    sensor.make_forced_measurement();
+    lum = sensor.get_light_level();
+    
+    //print to serial
+    Serial.println(String::format("%f", lum));
+    
+    /*
+    if lumination greater than the sun limit: 
+    publish event "suntrue" to ifttt trigger
+    print "suntrue" to serial
+    
+    loop until the reading drops below sun limit
+    */
+    if (lum >= SUNLIM)
+    {
+        //Particle.publish("suntrue");
+        Serial.println("suntrue");
+        
+        while (lum >= SUNLIM)
+        {
+            sensor.make_forced_measurement();
+            lum = sensor.get_light_level();
+            delay(1000);
+        }
+    }
+    
+    /*
+    else below sun limit
+    publish event "sunfalse" to ifttt trigger
+    print "sunfalse" to serial
+    
+    loop until the reading rises to at or above sun limit
+    */
+    else
+    {
+        //Particle.publish("sunfalse");
+        Serial.println("sunfalse");
+        
+        while (lum < SUNLIM)
+        {
+            sensor.make_forced_measurement();
+            lum = sensor.get_light_level();
+            delay(1000);
+        }
+    }
+    
+    
+    delay(1000);
+}
