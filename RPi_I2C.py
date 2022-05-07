@@ -1,7 +1,7 @@
 import time
 import smbus
 
-#define bus
+#define i2c bus
 bus = smbus.SMBus(1)
 #for Lux data read from sensor
 read_in = 0
@@ -41,4 +41,4 @@ while True:
 	
 	#outputs Lux and Subjective luminosity to serial monitor every second
 	print("Lux: " + read_in + ": " + sub_lum)
-	time.sleep(0.5)
+	time.sleep(1)
